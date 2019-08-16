@@ -7,8 +7,7 @@ interface IVDOM {
 }
 
 const onChange = (event) => {
-    // @ts-ignore
-    console.log('event: ', event, this);
+    console.log('event: ', event);
 };
 
 const element: IVDOM = {
@@ -29,15 +28,13 @@ const element: IVDOM = {
     }
 };
 
-console.log('Hello v1');
-
 const root = document.getElementById('root');
 
 const isString = (value: any): value is string => {
     return typeof value === 'string' || value instanceof String
 };
 
-const isListner = (propsKey: string): boolean => {
+const isListener = (propsKey: string): boolean => {
     return propsKey.startsWith('on');
 };
 
@@ -45,8 +42,9 @@ const render = (element: IVDOM, parent) => {
     const newElement = document.createElement(element.type);
     const {children, ...otherProps} = element.props;
     Object.entries(otherProps).forEach(([key, value]) => {
-        if (isListner(key)) {
-            newElement.addEventListener(key, value)
+        if (isListener(key)) {
+            const eventType = key.toLowerCase().substring(2);
+            newElement.addEventListener(eventType, value)
         } else {
             newElement[key] = value;
         }
