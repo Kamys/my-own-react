@@ -1,7 +1,9 @@
 export interface IVDOM {
 	type: string;
-	props: {
-		children?: IVDOM[] | string;
-		[key: string]: any
-	}
+	props: IProps;
+}
+
+export interface IProps {
+	children?: IVDOM[] | string;
+	[key: string]: any;
 }
